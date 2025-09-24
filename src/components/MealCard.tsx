@@ -100,7 +100,7 @@ export default function MealCard({
               {recipe.difficulty}
             </span>
           </div>
-          <span className="text-xs px-3 py-1 bg-gray-100 text-gray-700 rounded-full">
+          <span className="text-xs px-3 py-1 bg-gray-100 text-gray-700 rounded-full border border-gray-300">
             {recipe.protein}
           </span>
         </div>

@@ -71,7 +71,6 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
         <div className="flex justify-between items-start mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Your Meal Plan</h1>
-            <p className="text-gray-600 mt-2">14-day personalized meal plan with diversity optimization</p>
           </div>
           <button
             onClick={regenerateMealPlan}

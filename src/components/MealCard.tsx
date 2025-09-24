@@ -120,17 +120,17 @@ export default function MealCard({
           </div>
         )}
 
- <div className="flex items-center justify-end">
-  {[...Array(5)].map((_, i) => (
-    <Star
-      key={i}
-      onClick={() => setUserRating(i + 1)}
-      className={`h-6 w-6 cursor-pointer ${
-        i < userRating ? 'text-yellow-500' : 'text-gray-300'
-      }`}
-    />
-  ))}
-</div>
+         <div className="flex items-center justify-end">
+          {[...Array(5)].map((_, i) => (
+            <Star
+              key={i}
+              onClick={() => setUserRating(i + 1)}
+              className={`h-6 w-6 cursor-pointer ${
+                i < userRating ? 'text-yellow-500' : 'text-gray-300'
+              }`}
+            />
+          ))}
+        </div>
 
       </div>
     </div>

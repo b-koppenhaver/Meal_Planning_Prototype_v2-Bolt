@@ -55,7 +55,7 @@ export default function GroceryList({ mealPlan }: GroceryListProps) {
               Grocery List
             </h1>
             <p className="text-gray-600 mt-2">
-              Smart consolidation from your 14-day meal plan
+              Smart consolidation from your 7-day meal plan
             </p>
           </div>
           <div className="text-right">

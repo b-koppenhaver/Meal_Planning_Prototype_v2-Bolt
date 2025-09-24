@@ -51,22 +51,22 @@ export class MealPlanGenerator {
   private static checkDiversityConstraints(
     plannedMeals: MealPlan[],
     newRecipe: Recipe,
-    weekStart: number
+    weekStart: number = 0
   ): boolean {
-    // Check cuisine diversity (max 2 per week)
-    const currentWeekMeals = plannedMeals.slice(weekStart, weekStart + 7);
+    // Check cuisine diversity (max 1 per week for 7-day plan)
+    const currentWeekMeals = plannedMeals;
     const cuisineCount = currentWeekMeals.filter(
       meal => meal.recipe.cuisine === newRecipe.cuisine
     ).length;
     
-    if (cuisineCount >= 2) return false;
+    if (cuisineCount >= 1) return false;
 
-    // Check protein diversity (max 3 in 2 weeks)
+    // Check protein diversity (max 2 per week)
     const proteinCount = plannedMeals.filter(
       meal => meal.recipe.protein === newRecipe.protein
     ).length;
     
-    if (proteinCount >= 3) return false;
+    if (proteinCount >= 2) return false;
 
     // Check exact recipe repeats
     const recipeCount = plannedMeals.filter(
@@ -82,11 +82,11 @@ export class MealPlanGenerator {
     const mealPlan: MealPlan[] = [];
     const availableRecipes = [...recipes];
 
-    for (let day = 0; day < 14; day++) {
+    for (let day = 0; day < 7; day++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(startDate.getDate() + day);
       
-      const weekStart = Math.floor(day / 7) * 7;
+      const weekStart = 0; // Only one week now
       
       // Get suitable recipes that meet diversity constraints
       const suitableRecipes = availableRecipes.filter(recipe => 
@@ -139,7 +139,7 @@ export class MealPlanGenerator {
     user: User,
     dayIndex: number
   ): Recipe[] {
-    const weekStart = Math.floor(dayIndex / 7) * 7;
+    const weekStart = 0; // Only one week
     const otherMeals = existingPlan.filter((_, index) => index !== dayIndex);
 
     const alternatives = recipes.filter(recipe => 

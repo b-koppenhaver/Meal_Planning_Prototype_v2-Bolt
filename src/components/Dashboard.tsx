@@ -66,9 +66,9 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
     const uniqueCuisines = Object.keys(cuisineDistribution).length;
     const uniqueProteins = Object.keys(proteinDistribution).length;
     
-    // Maximum possible diversity in 14 days (reasonable limits)
-    const maxCuisines = Math.min(14, 10); // Max 10 different cuisines available
-    const maxProteins = Math.min(14, 6);  // Max 6 different protein types available
+    // Maximum possible diversity in 7 days (reasonable limits)
+    const maxCuisines = Math.min(7, 10); // Max 7 different cuisines in 7 days
+    const maxProteins = Math.min(7, 6);  // Max 6 different protein types available
     
     // Calculate weighted diversity score
     const cuisineScore = (uniqueCuisines / maxCuisines) * 60; // 60% weight for cuisine diversity
@@ -78,9 +78,6 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
   };
 
   const diversityScore = calculateDiversityScore();
-
-  const currentWeek = mealPlan.slice(0, 7);
-  const nextWeek = mealPlan.slice(7, 14);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -145,36 +142,18 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
         </div>
       </div>
 
-      {/* Week 1 */}
+      {/* 7-Day Meal Plan */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Week 1</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">This Week</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {currentWeek.map((meal, index) => (
+          {mealPlan.map((meal, index) => (
             <MealCard
-              key={`week1-${index}`}
+              key={`day-${index}`}
               recipe={meal.recipe}
               userRating={meal.userRating}
               date={meal.date}
               onRate={(rating) => handleRate(index, rating)}
               onSwap={() => setSwapMealIndex(index)}
-              onViewRecipe={() => setSelectedRecipe(meal.recipe)}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Week 2 */}
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Week 2</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {nextWeek.map((meal, index) => (
-            <MealCard
-              key={`week2-${index}`}
-              recipe={meal.recipe}
-              userRating={meal.userRating}
-              date={meal.date}
-              onRate={(rating) => handleRate(index + 7, rating)}
-              onSwap={() => setSwapMealIndex(index + 7)}
               onViewRecipe={() => setSelectedRecipe(meal.recipe)}
             />
           ))}

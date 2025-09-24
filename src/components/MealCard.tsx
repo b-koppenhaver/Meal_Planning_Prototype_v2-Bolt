@@ -21,16 +21,16 @@ export default function MealCard({
 }: MealCardProps) {
   const getCuisineColor = (cuisine: string) => {
     const colors = {
-      Italian: { bg: 'bg-red-50', border: 'border-red-300', badge: 'bg-red-200 text-red-800' },
-      Mexican: { bg: 'bg-orange-50', border: 'border-orange-300', badge: 'bg-orange-200 text-orange-800' },
-      Asian: { bg: 'bg-yellow-50', border: 'border-yellow-300', badge: 'bg-yellow-200 text-yellow-800' },
-      Japanese: { bg: 'bg-pink-50', border: 'border-pink-300', badge: 'bg-pink-200 text-pink-800' },
-      Mediterranean: { bg: 'bg-blue-50', border: 'border-blue-300', badge: 'bg-blue-200 text-blue-800' },
-      American: { bg: 'bg-purple-50', border: 'border-purple-300', badge: 'bg-purple-200 text-purple-800' },
-      British: { bg: 'bg-green-50', border: 'border-green-300', badge: 'bg-green-200 text-green-800' },
-      Indian: { bg: 'bg-amber-50', border: 'border-amber-300', badge: 'bg-amber-200 text-amber-800' },
-      Spanish: { bg: 'bg-violet-50', border: 'border-violet-300', badge: 'bg-violet-200 text-rose-800' },
-      French: { bg: 'bg-indigo-50', border: 'border-indigo-300', badge: 'bg-indigo-200 text-indigo-800' }
+      Italian: { bg: 'bg-red-100', border: 'border-red-300', badge: 'bg-red-200 text-red-800' },
+      Mexican: { bg: 'bg-orange-100', border: 'border-orange-300', badge: 'bg-orange-200 text-orange-800' },
+      Asian: { bg: 'bg-yellow-100', border: 'border-yellow-300', badge: 'bg-yellow-200 text-yellow-800' },
+      Japanese: { bg: 'bg-pink-100', border: 'border-pink-300', badge: 'bg-pink-200 text-pink-800' },
+      Mediterranean: { bg: 'bg-blue-100', border: 'border-blue-300', badge: 'bg-blue-200 text-blue-800' },
+      American: { bg: 'bg-purple-100', border: 'border-purple-300', badge: 'bg-purple-200 text-purple-800' },
+      British: { bg: 'bg-green-100', border: 'border-green-300', badge: 'bg-green-200 text-green-800' },
+      Indian: { bg: 'bg-amber-100', border: 'border-amber-300', badge: 'bg-amber-200 text-amber-800' },
+      Spanish: { bg: 'bg-violet-100', border: 'border-violet-300', badge: 'bg-violet-200 text-rose-800' },
+      French: { bg: 'bg-indigo-100', border: 'border-indigo-300', badge: 'bg-indigo-200 text-indigo-800' }
     };
     return colors[cuisine as keyof typeof colors] || { 
       bg: 'bg-gray-50', 
@@ -100,27 +100,39 @@ export default function MealCard({
               {recipe.difficulty}
             </span>
           </div>
-          <span className="text-xs px-3 py-1 bg-gray-100 text-gray-700 rounded-full border border-gray-300">
+          <span className="text-xs px-3 py-1 bg-gray-100 text-gray-700 rounded-full">
             {recipe.protein}
           </span>
         </div>
 
+        {recipe.tags.length > 0 && (
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-1">
+              {recipe.tags.slice(0, 3).map((tag, index) => (
+                <span
+                  key={index}
+                  className="px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
-        <div className="flex items-center justify-between">
-  <div className="flex items-center">
-    <Star className="h-5 w-5 text-yellow-500 mr-1" />
-    <p className="text-sm text-gray-600">{recipe.averageRating}</p>
-  </div>
-  <div className="flex items-center">
-    {[...Array(5)].map((_, i) => (
-      <Star
-        key={i}
-        className={`h-5 w-5 ${
-          i < userRating ? 'text-yellow-500' : 'text-gray-300'
-        }`}
-      />
-    ))}
-  </div>
+ <div className="flex items-center justify-end">
+  {[...Array(5)].map((_, i) => (
+    <Star
+      key={i}
+      onClick={() => setUserRating(i + 1)}
+      className={`h-6 w-6 cursor-pointer ${
+        i < userRating ? 'text-yellow-500' : 'text-gray-300'
+      }`}
+    />
+  ))}
 </div>
+
+      </div>
+    </div>
   );
 }

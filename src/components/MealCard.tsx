@@ -21,7 +21,7 @@ export default function MealCard({
 }: MealCardProps) {
   const getCuisineColor = (cuisine: string) => {
     const colors = {
-      Italian: { bg: 'bg-red-50', border: 'border-red-300', badge: 'bg-red-200 text-red-800' },
+      Italian: { bg: 'bg-red-50', border: 'border-red-300', badge: 'bg-red-200 text-white-800' },
       Mexican: { bg: 'bg-orange-50', border: 'border-orange-300', badge: 'bg-orange-200 text-orange-800' },
       Asian: { bg: 'bg-yellow-50', border: 'border-yellow-300', badge: 'bg-yellow-200 text-yellow-800' },
       Japanese: { bg: 'bg-pink-50', border: 'border-pink-300', badge: 'bg-pink-200 text-pink-800' },

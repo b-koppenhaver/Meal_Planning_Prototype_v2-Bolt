@@ -107,29 +107,20 @@ export default function MealCard({
 
 
         <div className="flex items-center justify-between">
-          <div className="flex space-x-1">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                onClick={() => onRate(star)}
-                className="hover:scale-110 transition-transform"
-              >
-                {userRating && star <= userRating ? (
-                  <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                ) : (
-                  <StarOff className="h-4 w-4 text-gray-300 hover:text-yellow-400" />
-                )}
-              </button>
-            ))}
-          </div>
-          
-          {userRating && (
-            <span className="text-xs text-gray-500">
-              Your rating: {userRating}/5
-            </span>
-          )}
-        </div>
-      </div>
-    </div>
+  <div className="flex items-center">
+    <Star className="h-5 w-5 text-yellow-500 mr-1" />
+    <p className="text-sm text-gray-600">{recipe.averageRating}</p>
+  </div>
+  <div className="flex items-center">
+    {[...Array(5)].map((_, i) => (
+      <Star
+        key={i}
+        className={`h-5 w-5 ${
+          i < userRating ? 'text-yellow-500' : 'text-gray-300'
+        }`}
+      />
+    ))}
+  </div>
+</div>
   );
 }

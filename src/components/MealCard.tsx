@@ -51,9 +51,7 @@ export default function MealCard({
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
+      weekday: 'short'
     });
   };
 

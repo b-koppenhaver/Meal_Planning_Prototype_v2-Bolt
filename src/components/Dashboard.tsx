@@ -84,9 +84,6 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
       {/* Header with stats */}
       <div className="mb-8">
         <div className="flex justify-between items-start mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Your Meal Plan</h1>
-          </div>
           <button
             onClick={regenerateMealPlan}
             className="flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"

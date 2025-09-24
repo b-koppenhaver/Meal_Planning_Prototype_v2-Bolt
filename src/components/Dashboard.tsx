@@ -122,7 +122,7 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
             <div className="flex items-center">
               <Award className="h-5 w-5 text-purple-600 mr-2" />
               <div>
-                <p className="text-sm text-gray-600">Proteins</p>
+                <p className="text-sm text-gray-600 border border-gray-300 rounded px-2 py-0.5 inline-block">Proteins</p>
                 <p className="text-lg font-semibold">{Object.keys(proteinDistribution).length}</p>
               </div>
             </div>

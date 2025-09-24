@@ -61,6 +61,24 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
     return acc;
   }, {} as { [key: string]: number });
 
+  // Calculate proper diversity score as percentage
+  const calculateDiversityScore = () => {
+    const uniqueCuisines = Object.keys(cuisineDistribution).length;
+    const uniqueProteins = Object.keys(proteinDistribution).length;
+    
+    // Maximum possible diversity in 14 days (reasonable limits)
+    const maxCuisines = Math.min(14, 10); // Max 10 different cuisines available
+    const maxProteins = Math.min(14, 6);  // Max 6 different protein types available
+    
+    // Calculate weighted diversity score
+    const cuisineScore = (uniqueCuisines / maxCuisines) * 60; // 60% weight for cuisine diversity
+    const proteinScore = (uniqueProteins / maxProteins) * 40;  // 40% weight for protein diversity
+    
+    return Math.min(100, Math.round(cuisineScore + proteinScore));
+  };
+
+  const diversityScore = calculateDiversityScore();
+
   const currentWeek = mealPlan.slice(0, 7);
   const nextWeek = mealPlan.slice(7, 14);
 
@@ -119,7 +137,7 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
               <div>
                 <p className="text-sm text-gray-600">Diversity Score</p>
                 <p className="text-lg font-semibold">
-                  {Math.round((Object.keys(cuisineDistribution).length + Object.keys(proteinDistribution).length) * 10)}%
+                  {diversityScore}%
                 </p>
               </div>
             </div>

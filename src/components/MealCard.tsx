@@ -105,21 +105,6 @@ export default function MealCard({
           </span>
         </div>
 
-        {recipe.tags.length > 0 && (
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-1">
-              {recipe.tags.slice(0, 3).map((tag, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
          <div className="flex items-center justify-end">
           {[...Array(5)].map((_, i) => (
             <Star

@@ -165,7 +165,7 @@ export default function Profile({ user }: ProfileProps) {
           <li>• Higher-rated cuisines appear more frequently in future plans</li>
           <li>• Your cooking level and prep time preferences filter suitable recipes</li>
           <li>• Food dislikes are automatically avoided in meal generation</li>
-          <li>• The system maintains diversity while optimizing for your taste preferences</li>
+          <li>• The system maintains weekly diversity while optimizing for your taste preferences</li>
           <li>• Rating more meals improves the personalization of your meal plans</li>
         </ul>
       </div>

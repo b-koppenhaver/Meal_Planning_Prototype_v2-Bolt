@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { MealPlan, User, Recipe } from '../types';
 import MealCard from './MealCard';
 import RecipeModal from './RecipeModal';
 import SwapMealModal from './SwapMealModal';
 import { MealPlanGenerator } from '../utils/mealPlanning';
-import { RefreshCw, TrendingUp, Calendar, Award } from 'lucide-react';
+import { RefreshCw, TrendingUp, Calendar, Award, Move } from 'lucide-react';
 
 interface DashboardProps {
   mealPlan: MealPlan[];
@@ -38,6 +39,34 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
     );
     onUpdateMealPlan(updatedPlan);
     setSwapMealIndex(null);
+  };
+
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    if (sourceIndex === destinationIndex) return;
+
+    const newMealPlan = Array.from(mealPlan);
+    const [reorderedItem] = newMealPlan.splice(sourceIndex, 1);
+    
+    // Update the date to match the new position
+    const targetDate = newMealPlan[destinationIndex]?.date || mealPlan[destinationIndex].date;
+    const updatedItem = { ...reorderedItem, date: targetDate };
+    
+    newMealPlan.splice(destinationIndex, 0, updatedItem);
+    
+    // Update all dates to maintain sequential order
+    const startDate = new Date(mealPlan[0].date);
+    const finalPlan = newMealPlan.map((meal, index) => {
+      const newDate = new Date(startDate);
+      newDate.setDate(startDate.getDate() + index);
+      return { ...meal, date: newDate.toISOString().split('T')[0] };
+    });
+
+    onUpdateMealPlan(finalPlan);
   };
 
   const regenerateMealPlan = () => {
@@ -141,20 +170,51 @@ export default function Dashboard({ mealPlan, user, onUpdateMealPlan, onUpdateUs
 
       {/* 7-Day Meal Plan */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">This Week</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {mealPlan.map((meal, index) => (
-            <MealCard
-              key={`day-${index}`}
-              recipe={meal.recipe}
-              userRating={meal.userRating}
-              date={meal.date}
-              onRate={(rating) => handleRate(index, rating)}
-              onSwap={() => setSwapMealIndex(index)}
-              onViewRecipe={() => setSelectedRecipe(meal.recipe)}
-            />
-          ))}
+        <div className="flex items-center mb-6">
+          <h2 className="text-2xl font-semibold text-gray-900">This Week</h2>
+          <div className="ml-4 flex items-center text-sm text-gray-500">
+            <Move className="h-4 w-4 mr-1" />
+            Drag meals to reorder days
+          </div>
         </div>
+        
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="meal-plan" direction="horizontal">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
+                {mealPlan.map((meal, index) => (
+                  <Draggable key={`meal-${meal.recipe.id}-${index}`} draggableId={`meal-${index}`} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`transition-transform ${
+                          snapshot.isDragging ? 'rotate-2 scale-105 shadow-lg' : ''
+                        }`}
+                      >
+                        <MealCard
+                          recipe={meal.recipe}
+                          userRating={meal.userRating}
+                          date={meal.date}
+                          onRate={(rating) => handleRate(index, rating)}
+                          onSwap={() => setSwapMealIndex(index)}
+                          onViewRecipe={() => setSelectedRecipe(meal.recipe)}
+                          isDragging={snapshot.isDragging}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       {/* Modals */}
